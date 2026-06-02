@@ -1,0 +1,11 @@
+# Robots.txt for NEWLINK website
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /*.json$
+
+# Sitemap
+Sitemap: https://newlinkweb-ars2ds4u.manus.space/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
