@@ -747,7 +747,7 @@ export default function Home() {
                 className="flex-1 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base text-gray-900 rounded-full font-semibold transition-all duration-300 ease-out flex items-center justify-center gap-2 hover:shadow-lg border border-gray-300"
                 onClick={() => {
                   const link = document.createElement('a');
-                  link.href = 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663704927043/WFRajDyTPUNpVKRh.pdf';
+                  link.href = '/files/newlink-company-profile.pdf';
                   link.download = '뉴링크_광고상품소개서.pdf';
                   document.body.appendChild(link);
                   link.click();
