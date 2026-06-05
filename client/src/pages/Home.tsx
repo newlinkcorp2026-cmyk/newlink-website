@@ -429,156 +429,129 @@ export default function Home() {
   ];
 
   // 유효성 검사 함수
-  const validateField = (name: string, value: string): string | undefined => {
-    switch (name) {
-      case 'name':
-        if (!value.trim()) return '이름을 입력해주세요';
-        if (value.trim().length < 2) return '이름은 2글자 이상이어야 합니다';
-        return undefined;
-      case 'phone':
-        if (!value.trim()) return '전화번호를 입력해주세요';
-        if (!/^[0-9\-]{10,}$/.test(value.trim())) return '올바른 전화번호 형식이 아닙니다';
-        return undefined;
-      case 'email':
-        if (!value.trim()) return '이메일을 입력해주세요';
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return '올바른 이메일 형식이 아닙니다';
-        return undefined;
-      case 'company':
-        if (!value.trim()) return '회사명을 입력해주세요';
-        if (value.trim().length < 2) return '회사명은 2글자 이상이어야 합니다';
-        return undefined;
-      case 'message':
-        if (!value.trim()) return '문의 내용을 입력해주세요';
-        if (value.trim().length < 10) return '문의 내용은 10글자 이상이어야 합니다';
-        return undefined;
-      default:
-        return undefined;
-    }
-  };
+          const validateField = (name: string, value: string): string | undefined => {
+            switch (name) {
+              case 'name':
+                if (!value.trim()) return '이름을 입력해주세요';
+                if (value.trim().length < 2) return '이름은 2글자 이상이어야 합니다';
+                return undefined;
+              case 'phone':
+                if (!value.trim()) return '전화번호를 입력해주세요';
+                if (!/^[0-9\-]{10,}$/.test(value.trim())) return '올바른 전화번호 형식이 아닙니다';
+                return undefined;
+              case 'email':
+                if (!value.trim()) return '이메일을 입력해주세요';
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return '올바른 이메일 형식이 아닙니다';
+                return undefined;
+              case 'company':
+                if (!value.trim()) return '회사명을 입력해주세요';
+                if (value.trim().length < 2) return '회사명은 2글자 이상이어야 합니다';
+                return undefined;
+              case 'message':
+                if (!value.trim()) return '문의 내용을 입력해주세요';
+                if (value.trim().length < 10) return '문의 내용은 10글자 이상이어야 합니다';
+                return undefined;
+              default:
+                return undefined;
+            }
+          };
 
-  const isFieldValid = (fieldName: string): boolean => {
-    const value = formData[fieldName as keyof FormData];
-    return Boolean(touched[fieldName]) && Boolean(value) && !formErrors[fieldName as keyof FormErrors];
-  };
+          const isFieldValid = (fieldName: string): boolean => {
+            const value = formData[fieldName as keyof FormData];
+            return Boolean(touched[fieldName]) && Boolean(value) && !formErrors[fieldName as keyof FormErrors];
+          };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+          const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+            const { name, value } = e.target;
+            setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // 실시간 유효성 검사
-    if (touched[name]) {
-      const error = validateField(name, value);
-      setFormErrors((prev) => ({
-        ...prev,
-        [name]: error,
-      }));
-    }
-  };
+            // 실시간 유효성 검사
+            if (touched[name]) {
+              const error = validateField(name, value);
+              setFormErrors((prev) => ({
+                ...prev,
+                [name]: error,
+              }));
+            }
+          };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setTouched((prev) => ({ ...prev, [name]: true }));
-    const error = validateField(name, value);
-    setFormErrors((prev) => ({
-      ...prev,
-      [name]: error,
-    }));
-  };
+          const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+            const { name, value } = e.target;
+            setTouched((prev) => ({ ...prev, [name]: true }));
+            const error = validateField(name, value);
+            setFormErrors((prev) => ({
+              ...prev,
+              [name]: error,
+            }));
+          };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+        const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-  console.log("제출 버튼 클릭됨");
+        const errors: FormErrors = {};
 
-    // 모든 필드 검증
-    const errors: FormErrors = {};
-    Object.keys(formData).forEach((key) => {
-      const error = validateField(key, formData[key as keyof FormData]);
-      if (error) errors[key as keyof FormErrors] = error;
-    });
+        Object.keys(formData).forEach((key) => {
+        const error = validateField(key, formData[key as keyof FormData]);
+        if (error) errors[key as keyof FormErrors] = error;
+        });
 
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-      setTouched({
+        if (Object.keys(errors).length > 0) {
+        setFormErrors(errors);
+        setTouched({
         name: true,
         phone: true,
         email: true,
         company: true,
         message: true,
-      });
-      return;
-    }
-
-    // 제출
+        });
+        return;
+        }
         setIsSubmitting(true);
 
-    try {
-      const response = await fetch('/api/contact', {
+        try {
+        const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      });
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if (!result.success) {
-        throw new Error(result.error || '메일 전송 실패');
-      }
+        if (!result.success) {
+          throw new Error(result.error || '메일 전송 실패');
+        }
 
-      setShowSuccessModal(true);
+        setShowSuccessModal(true);
 
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        company: '',
-        message: '',
-      });
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          company: '',
+          message: '',
+        });
 
-      setTouched({});
-      setFormErrors({});
+        setTouched({});
+        setFormErrors({});
 
-      setTimeout(() => {
-        setShowSuccessModal(false);
-      }, 3000);
+        setTimeout(() => {
+          setShowSuccessModal(false);
+        }, 3000);
 
-    } catch (error) {
-      console.error(error);
-      alert('문의 접수에 실패했습니다.');
-    } finally {
-      setIsSubmitting(false);
-    }
+        } catch (error) {
+        console.error(error);
+        alert('문의 접수에 실패했습니다.');
+        } finally {
+          setIsSubmitting(false);
+        }
+        };
 
-      // 3초 후 모달 닫기
-      setTimeout(() => {
-        setShowSuccessModal(false);
-      }, 3000);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleNextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % results.length);
-  };
-
-  const handlePrevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + results.length) % results.length);
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % results.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [results.length]);
-
-  return (
-    <>
-      {/* 커스텀 마우스 커서 */}
-      <motion.div
+        return (
+          <>
+         {/* 커스텀 마우스 커서 */}
+        <motion.div
         className="fixed w-6 h-6 border-2 border-orange-500 rounded-full pointer-events-none z-[9999] hidden md:block"
         animate={{
           x: mousePos.x - 12,
