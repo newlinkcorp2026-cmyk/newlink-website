@@ -429,32 +429,32 @@ export default function Home() {
   ];
 
   // 유효성 검사 함수
-          const validateField = (name: string, value: string): string | undefined => {
-            switch (name) {
-              case 'name':
-                if (!value.trim()) return '이름을 입력해주세요';
-                if (value.trim().length < 2) return '이름은 2글자 이상이어야 합니다';
-                return undefined;
-              case 'phone':
-                if (!value.trim()) return '전화번호를 입력해주세요';
-                if (!/^[0-9\-]{10,}$/.test(value.trim())) return '올바른 전화번호 형식이 아닙니다';
-                return undefined;
-              case 'email':
-                if (!value.trim()) return '이메일을 입력해주세요';
-                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return '올바른 이메일 형식이 아닙니다';
-                return undefined;
-              case 'company':
-                if (!value.trim()) return '회사명을 입력해주세요';
-                if (value.trim().length < 2) return '회사명은 2글자 이상이어야 합니다';
-                return undefined;
-              case 'message':
-                if (!value.trim()) return '문의 내용을 입력해주세요';
-                if (value.trim().length < 10) return '문의 내용은 10글자 이상이어야 합니다';
-                return undefined;
-              default:
-                return undefined;
-            }
-          };
+          function validateField(name: string, value: string): string | undefined {
+    switch (name) {
+      case 'name':
+        if (!value.trim()) return '이름을 입력해주세요';
+        if (value.trim().length < 2) return '이름은 2글자 이상이어야 합니다';
+        return undefined;
+      case 'phone':
+        if (!value.trim()) return '전화번호를 입력해주세요';
+        if (!/^[0-9\-]{10,}$/.test(value.trim())) return '올바른 전화번호 형식이 아닙니다';
+        return undefined;
+      case 'email':
+        if (!value.trim()) return '이메일을 입력해주세요';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return '올바른 이메일 형식이 아닙니다';
+        return undefined;
+      case 'company':
+        if (!value.trim()) return '회사명을 입력해주세요';
+        if (value.trim().length < 2) return '회사명은 2글자 이상이어야 합니다';
+        return undefined;
+      case 'message':
+        if (!value.trim()) return '문의 내용을 입력해주세요';
+        if (value.trim().length < 10) return '문의 내용은 10글자 이상이어야 합니다';
+        return undefined;
+      default:
+        return undefined;
+    }
+  }
 
           const isFieldValid = (fieldName: string): boolean => {
             const value = formData[fieldName as keyof FormData];

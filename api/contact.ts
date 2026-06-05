@@ -20,8 +20,6 @@ export default async function handler(req: any, res: any) {
       `,
     });
 
-    console.log("RESEND RESULT:", result);
-
     return res.status(200).json({
       success: true,
       result,
@@ -34,3 +32,4 @@ export default async function handler(req: any, res: any) {
       error: String(error),
     });
   }
+}
