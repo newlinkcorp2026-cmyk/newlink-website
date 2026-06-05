@@ -485,8 +485,10 @@ export default function Home() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  console.log("제출 버튼 클릭됨");
 
     // 모든 필드 검증
     const errors: FormErrors = {};

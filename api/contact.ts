@@ -10,29 +10,27 @@ export default async function handler(req: any, res: any) {
   try {
     const { name, phone, email, company, message } = req.body;
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: "NEWLINK <onboarding@resend.dev>",
       to: ["contact@newlinkcorp.kr"],
       subject: `[NEWLINK 문의] ${name}`,
       html: `
         <h2>신규 문의 접수</h2>
-
-        <p><b>이름</b><br/>${name}</p>
-        <p><b>연락처</b><br/>${phone}</p>
-        <p><b>이메일</b><br/>${email}</p>
-        <p><b>회사명</b><br/>${company}</p>
-        <p><b>문의내용</b><br/>${message}</p>
+        <p>${message}</p>
       `,
     });
 
+    console.log("RESEND RESULT:", result);
+
     return res.status(200).json({
       success: true,
+      result,
     });
   } catch (error) {
-    console.error(error);
+    console.error("RESEND ERROR:", error);
 
     return res.status(500).json({
       success: false,
+      error: String(error),
     });
   }
-}
