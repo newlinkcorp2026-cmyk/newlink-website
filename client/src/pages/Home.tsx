@@ -510,14 +510,46 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
 
     // 제출
-    setIsSubmitting(true);
+        setIsSubmitting(true);
+
     try {
-      // 실제 API 호출 시뮬레이션
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || '메일 전송 실패');
+      }
+
       setShowSuccessModal(true);
-      setFormData({ name: '', phone: '', email: '', company: '', message: '' });
+
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        company: '',
+        message: '',
+      });
+
       setTouched({});
       setFormErrors({});
+
+      setTimeout(() => {
+        setShowSuccessModal(false);
+      }, 3000);
+
+    } catch (error) {
+      console.error(error);
+      alert('문의 접수에 실패했습니다.');
+    } finally {
+      setIsSubmitting(false);
+    }
 
       // 3초 후 모달 닫기
       setTimeout(() => {
