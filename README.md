@@ -9,7 +9,7 @@ https://www.newlinkcorp.kr
 ## Overview
 
 NEWLINK의 브랜드, 서비스, 구축 사례를 소개하고
-고객 문의를 수집하기 위한 기업 웹사이트입니다.
+고객 문의를 대응하기 위한 기업 웹사이트입니다.
 
 ## Features
 
